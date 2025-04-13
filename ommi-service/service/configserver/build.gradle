@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.2'
+    id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'org.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = uri("https://company/com/maven2") } // Thêm kho nội bộ nếu cần thiết
+    mavenLocal()
+    maven { url = uri("https://repo.spring.io/release") } // Kho Spring Cloud
+    flatDir {
+        dirs "libs" // Nếu có thư viện nội bộ trong thư mục libs
+    }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.0" // Quản lý phiên bản Spring Cloud tương thích với Spring Boot
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

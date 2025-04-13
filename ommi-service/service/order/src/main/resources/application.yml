@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=master;encrypt=false;trustServerCertificate=true;
+    username: sa
+    password: StrongPass!123
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: update  # Không tự động thay đổi schema
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+    show-sql: true  # Hiển thị SQL trên console
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+server:
+  port: 8081

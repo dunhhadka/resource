@@ -1,0 +1,31 @@
+rootProject.name = 'ommi-service'
+
+// Include lib modules (nằm trong service/lib)
+include 'service:lib:admin-client'
+
+// Include service modules
+include 'service:order'
+include 'service:configserver'
+include 'service:event'
+include 'service:integration-gateway'
+include 'service:notification'
+include 'service:product'
+include 'service:receive-inventory'
+
+// Tự động thêm tất cả các module trong thư mục service
+file('service').listFiles()
+        ?.findAll { it.isDirectory() }
+        ?.each { dir ->
+            def buildFile = new File(dir, 'build.gradle')
+            if (buildFile.exists()) {
+                // service/order, service/product, v.v...
+                include "service:${dir.name}"
+            } else {
+                // Kiểm tra các module con như service/lib/admin-client
+                dir.listFiles()
+                        ?.findAll { subDir -> subDir.isDirectory() && new File(subDir, 'build.gradle').exists() }
+                        ?.each { subDir ->
+                            include "service:${dir.name}:${subDir.name}"
+                        }
+            }
+        }

@@ -1,0 +1,17 @@
+description,withLocation,withLocationValidate,withAssigned,withAssignedValidate,withSourceChannel,withSourceChannelValidate,withUpdate
+Create - with location validate,true,true,false,false,false,false,false
+Create - with location invalidate,true,false,false,false,false,false,false
+Create - without location,false,false,false,false,false,false,false
+Create - with assigned,true,false,true,true,false,false,false
+Create - without assigned,false,false,false,false,false,false,false
+Create - with valid source channel,false,false,false,false,true,true,false
+Create - with invalid source channel,false,false,false,false,true,false,false
+Create - without source channel,false,false,false,false,false,false,false
+Update - with location validate,true,true,false,false,false,false,true
+Update - with location invalidate,true,false,false,false,false,false,true
+Update - without location,false,false,false,false,false,false,true
+Update - with assigned,true,false,true,true,false,false,true
+Update - without assigned,false,false,false,false,false,false,true
+Update - with valid source channel,false,false,false,false,true,true,true
+Update - with invalid source channel,false,false,false,false,true,false,true
+Update - without source channel,false,false,false,false,false,false,true
