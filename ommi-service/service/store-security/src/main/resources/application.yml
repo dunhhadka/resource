@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: store-security
+  redis-common:
+    port: 6379
+    host: redis
+    timeout: 2000
+    database: 0
+    enabled: true
+    pool:
+      maxIdle: 50
+      minIdle: 10
+      maxTotal: 50
+  store-datasource:
+    jdbc-url: jdbc:mysql://localhost:3306/store-security
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+
+security:
+  enabled: true
+  auth-methods:
+    - bearer
+    - public_basic
+    - bearer
+    - cookie
