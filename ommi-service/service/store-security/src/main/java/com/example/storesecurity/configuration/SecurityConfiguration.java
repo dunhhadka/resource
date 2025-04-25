@@ -100,7 +100,7 @@ public class SecurityConfiguration {
         SecurityFilterChain securityFilterChain(
                 HttpSecurity http,
                 List<SecurityCustomizer> securityCustomizers,
-                StoreSecurityConfigurer configurer
+                StoreSecurityConfigurer securityConfigurer
         ) throws Exception {
             http.authorizeHttpRequests(authz -> {
                 authz.requestMatchers("/actuator/**").permitAll();
@@ -113,8 +113,9 @@ public class SecurityConfiguration {
                 }
             });
 
-            http.with(configurer, con -> {
+            http.with(securityConfigurer, configurer -> {
             });
+
             http.requestCache(AbstractHttpConfigurer::disable);
             http.logout(AbstractHttpConfigurer::disable);
             http.csrf(AbstractHttpConfigurer::disable);
@@ -123,13 +124,21 @@ public class SecurityConfiguration {
         }
 
         @Bean
-        public StoreSecurityConfigurer storeSecurityConfigurer(ApplicationContext applicationContext) {
-            return new StoreSecurityConfigurer(applicationContext);
+        @ConditionalOnMissingBean
+        public StoreAuthenticationFilter storeAuthenticationFilter() {
+            return new StoreAuthenticationFilter();
         }
 
         @Bean
-        public StoreSecurityProvider storeSecurityProvider(List<PrincipalResolver> resolvers) {
-            return new StoreSecurityProvider(resolvers);
+        @ConditionalOnMissingBean
+        public StoreSecurityConfigurer securityConfigurer(StoreAuthenticationFilter filter) {
+            return new StoreSecurityConfigurer(filter);
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        public StoreAuthenticationProvider authenticationProvider(List<PrincipalResolver> principalResolvers) {
+            return new StoreAuthenticationProvider(principalResolvers);
         }
     }
 }
