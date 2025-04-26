@@ -14,9 +14,10 @@ public class StoreAuthenticationToken extends AbstractAuthenticationToken {
     private Object credentials;
     private Map<String, Object> attributes = new HashMap<>();
 
-    public StoreAuthenticationToken(String token) {
+    public StoreAuthenticationToken(String token, Map<String, Object> attributes) {
         super(Collections.emptyList());
         this.token = token;
+        this.attributes = attributes;
     }
 
     @Override
