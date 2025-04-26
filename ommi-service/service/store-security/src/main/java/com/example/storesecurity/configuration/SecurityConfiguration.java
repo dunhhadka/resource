@@ -11,12 +11,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -125,20 +127,16 @@ public class SecurityConfiguration {
 
         @Bean
         @ConditionalOnMissingBean
-        public StoreAuthenticationFilter storeAuthenticationFilter() {
-            return new StoreAuthenticationFilter();
-        }
-
-        @Bean
-        @ConditionalOnMissingBean
-        public StoreSecurityConfigurer securityConfigurer(StoreAuthenticationFilter filter) {
-            return new StoreSecurityConfigurer(filter);
-        }
-
-        @Bean
-        @ConditionalOnMissingBean
         public StoreAuthenticationProvider authenticationProvider(List<PrincipalResolver> principalResolvers) {
             return new StoreAuthenticationProvider(principalResolvers);
+        }
+
+        @Bean
+        @ConditionalOnMissingBean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration, StoreAuthenticationProvider provider) throws Exception {
+            ProviderManager providerManager = (ProviderManager) configuration.getAuthenticationManager();
+            providerManager.getProviders().add(provider);
+            return providerManager;
         }
     }
 }
