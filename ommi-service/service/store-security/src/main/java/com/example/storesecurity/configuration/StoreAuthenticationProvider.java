@@ -25,8 +25,8 @@ public final class StoreAuthenticationProvider implements AuthenticationProvider
         for (var repository : principalResolvers) {
             if (repository.support(token)) {
                 log.debug("{} resolve token ", repository.getClass().getSimpleName());
-                var principal = repository.resolve(token);
-                log.debug("principal {} ", principal);
+//                var principal = repository.resolve(token);
+//                log.debug("principal {} ", principal);
                 return new StoreAuthenticationToken(null, null);
             }
         }
@@ -35,6 +35,6 @@ public final class StoreAuthenticationProvider implements AuthenticationProvider
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return false;
+        return StoreAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }
