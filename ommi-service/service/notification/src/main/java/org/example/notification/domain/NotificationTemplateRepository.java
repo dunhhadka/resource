@@ -1,4 +1,7 @@
 package org.example.notification.domain;
 
-public class NotificationTemplateRepository {
+public interface NotificationTemplateRepository {
+
+    NotificationTemplateDto getByStoreIdAndTemplate(int storeId, String template);
+
 }
