@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/service/order" />
             <option value="$PROJECT_DIR$/service/product" />
             <option value="$PROJECT_DIR$/service/receive-inventory" />
+            <option value="$PROJECT_DIR$/service/store-security" />
           </set>
         </option>
       </GradleProjectSettings>

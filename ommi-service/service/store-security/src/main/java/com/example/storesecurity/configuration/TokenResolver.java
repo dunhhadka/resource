@@ -3,6 +3,8 @@ package com.example.storesecurity.configuration;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.naming.AuthenticationException;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +19,8 @@ public class TokenResolver {
     private static final String AUTHOR_ID_HEADER = "Author-Id_Header";
     private static final String AUTHOR_TYPE_HEADER = "Author-Type_Header";
 
+    private static final Logger log = LoggerFactory.getLogger(TokenResolver.class);
+
     public StoreAuthenticationToken resolve(HttpServletRequest request) {
         StoreAuthenticationToken token;
         if (isPrivateIP(request)) {
@@ -24,7 +28,8 @@ public class TokenResolver {
         } else {
             token = resolveFromPublicBasicHeader(request);
         }
-        return null;
+        log.debug("Token resolved: {}", token);
+        return token;
     }
 
     private StoreAuthenticationToken resolveFromPublicBasicHeader(HttpServletRequest request) {
@@ -56,7 +61,9 @@ public class TokenResolver {
             attributes.put("AUTHOR_TYPE", authorType);
         }
 
-        return new StoreAuthenticationToken(authorId, attributes);
+        var authenticationToken = new StoreAuthenticationToken(authorId, attributes);
+        log.debug("Authentication result: {}", authenticationToken);
+        return authenticationToken;
     }
 
     private String[] decodeHeaderTokenValue(String headerToken) {

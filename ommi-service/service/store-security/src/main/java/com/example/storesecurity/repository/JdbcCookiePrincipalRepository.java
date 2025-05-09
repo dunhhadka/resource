@@ -73,7 +73,7 @@ public class JdbcCookiePrincipalRepository implements PrincipalResolver {
 
     @Override
     public boolean support(StoreAuthenticationToken token) {
-        return false;
+        return true;
     }
 
     @Getter

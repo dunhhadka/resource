@@ -29,6 +29,13 @@ public final class StoreSecurityConfigurer extends AbstractHttpConfigurer<StoreS
     }
 
     @Override
+    public void init(HttpSecurity http) throws Exception {
+        http.exceptionHandling(handle
+                -> handle.accessDeniedHandler(accessDeniedHandler)
+                .authenticationEntryPoint(authenticationEntryPoint));
+    }
+
+    @Override
     public void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(filter, BasicAuthenticationFilter.class);
     }
