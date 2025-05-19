@@ -2,11 +2,15 @@ package org.example.order.order.interfaces.rest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.order.order.application.model.order.export.OrderExportRequest;
 import org.example.order.order.application.model.order.request.OrderCreateRequest;
 import org.example.order.order.application.model.order.response.OrderResponse;
 import org.example.order.order.application.service.order.OrderWriteService;
+import org.example.order.order.job.rabbitmq.OrderJobHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,6 +19,8 @@ public class OrderController {
 
     private final OrderWriteService orderWriteService;
 
+    private final OrderJobHandler orderJobHandler;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponse create(@RequestBody @Valid OrderCreateRequest request) {
@@ -22,5 +28,11 @@ public class OrderController {
         var orderId = orderWriteService.createOrder(storeId, request);
 
         return null;
+    }
+
+    @PostMapping("/export-v2")
+    public void exportOrders(@RequestBody @Valid OrderExportRequest exportRequest) {
+        int storeId = 1;
+        this.orderJobHandler.createExportJob(storeId, List.of(), exportRequest);
     }
 }

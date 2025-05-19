@@ -1,6 +1,7 @@
 package org.example.order.order.application.service.customer;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.example.AdminClient;
@@ -8,6 +9,7 @@ import org.example.customer.Customer;
 import org.example.order.order.domain.order.model.MailingAddress;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 @Service
@@ -45,5 +47,12 @@ public class CustomerService {
 
     public Customer update(int storeId, int id, String finalEmail, String finalPhone) {
         return null;
+    }
+
+    public List<Customer> findByIds(int storeId, List<Integer> customerIds) {
+        if (CollectionUtils.isEmpty(customerIds)) {
+            return List.of();
+        }
+        return List.of();
     }
 }

@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class AddressHelper {
 
@@ -110,6 +112,12 @@ public final class AddressHelper {
                 .filter(condition)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public static String getFullName(String firstName, String lastName) {
+        return Stream.of(firstName, lastName)
+                .filter(StringUtils::isNotBlank)
+                .collect(Collectors.joining(" "));
     }
 
     @Getter

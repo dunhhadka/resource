@@ -16,7 +16,7 @@ import java.util.Map;
 public final class JsonUtils {
     private static final ObjectMapper mapper = createObjectMapper();
 
-    private static ObjectMapper createObjectMapper() {
+    public static ObjectMapper createObjectMapper() {
         var mapper = new ObjectMapper();
         mapper.setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         return mapper;

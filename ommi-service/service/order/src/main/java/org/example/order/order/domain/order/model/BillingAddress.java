@@ -12,7 +12,7 @@ import lombok.*;
 @Table(name = "billing_addresses")
 @NoArgsConstructor
 @AllArgsConstructor
-public class BillingAddress {
+public class BillingAddress implements OrderAddress {
 
     @Setter
     @JsonIgnore

@@ -13,6 +13,13 @@ spring:
     show-sql: true  # Hiển thị SQL trên console
   jackson:
     property-naming-strategy: SNAKE_CASE
-
+  rabbitmq:
+    listener:
+      auto-startup: false
+      concurrent: 1
+es:
+  hosts:
+    - localhost:9200
+    - localhost:9201
 server:
   port: 8081
